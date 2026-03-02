@@ -31,7 +31,11 @@
 | **a-share-finance** | [`_skills/a-share-finance/`](./_skills/a-share-finance/) | A股财务数据补充 |
 | **eastmoney-api** | [`_skills/eastmoney-api/`](./_skills/eastmoney-api/) | 东方财富接口文档 |
 
-### 📊 通用工具
+### 🌍 跨市场分析
+
+| 技能 | 路径 | 描述 |
+|------|------|------|
+| **global-market-intelligence** | [`_skills/global-market-intelligence/`](./_skills/global-market-intelligence/) | 全球市场智能分析（A股+美股+宏观联动） |
 
 | 技能 | 路径 | 描述 |
 |------|------|------|
@@ -39,6 +43,47 @@
 | **market-news** | [`market-news.js`](./market-news.js) | 市场新闻 |
 | **stock-screener** | [`stock-screener.js`](./stock-screener.js) | 股票筛选器 |
 | **trading-signals** | [`trading-signals.js`](./trading-signals.js) | 交易信号 |
+
+## 💡 核心分析框架
+
+### 电力板块分析（含AI用电需求驱动）
+
+最新研究发现：**AI发展是电力板块的重要驱动因素**
+
+```
+AI发展 → 算力需求爆发 → 数据中心建设 → 用电量激增
+
+关键数据：
+- ChatGPT单次查询用电：0.3度（谷歌搜索10倍）
+- 全球数据中心用电：2023年200TWh → 2030年600-1000TWh
+- 中国智算中心：已建50+个，在建100+个
+- AI新增用电：相当于3-15个三峡电站！
+
+受益排序：
+1. 核电 ⭐⭐⭐⭐⭐（基荷电源，24小时稳定）
+2. 水电 ⭐⭐⭐⭐⭐（清洁能源，成本低）
+3. 风光 ⭐⭐⭐⭐（绿电采购首选）
+4. 火电 ⭐⭐⭐（调峰备用）
+```
+
+**推荐标的**：
+- 中国核电(601985)：AI用电首选，基荷电源
+- 长江电力(600900)：水电龙头，送电数据中心
+- 三峡能源(600905)：绿电龙头，科技巨头采购
+
+### 跨市场传导链
+
+```
+美股AI事件 → A股AI反应
+
+英伟达财报超预期
+    ↓ 次日A股AI芯片高开
+    ↓ 寒武纪、中际旭创跟涨
+    
+OpenAI发布新模型
+    ↓ A股大模型概念活跃
+    ↓ 科大讯飞、昆仑万维上涨
+```
 
 ## 🚀 快速开始
 
