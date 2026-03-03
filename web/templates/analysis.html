@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分析报告 - {{ symbol }} | Crypto Daily Analyzer</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1>📊 Crypto Daily Analyzer</h1>
+            <ul class="nav-links">
+                <li><a href="/">首页</a></li>
+                <li><a href="/dashboard">仪表盘</a></li>
+                <li><a href="/ai-chat">🤖 AI分析</a></li>
+                <li><a href="/settings">设置</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="analysis-header">
+            <h2 id="tokenName">{{ symbol }} 分析报告</h2>
+            <span id="analysisTime" class="timestamp"></span>
+        </div>
+
+        <div class="analysis-content" id="analysisContent">
+            <div class="loading">正在分析 {{ symbol }}...</div>
+        </div>
+
+        <div class="actions">
+            <button id="refreshAnalysis" class="btn btn-primary">🔄 重新分析</button>
+            <a href="/" class="btn btn-secondary">⬅️ 返回首页</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Crypto Daily Analyzer v1.0</p>
+        </div>
+    </footer>
+
+    <script>
+        const symbol = '{{ symbol }}';
+    </script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

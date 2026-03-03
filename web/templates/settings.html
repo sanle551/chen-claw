@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设置 - Crypto Daily Analyzer</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .ai-model-card {
+            background: var(--bg-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+        }
+        .ai-model-card.active {
+            border-color: var(--primary-color);
+            background: rgba(46, 92, 255, 0.05);
+        }
+        .model-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .model-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .model-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        .model-status.active {
+            background: var(--secondary-color);
+            color: white;
+        }
+        .model-status.inactive {
+            background: var(--border-color);
+            color: var(--text-muted);
+        }
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: var(--border-color);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .toggle-switch.active {
+            background: var(--primary-color);
+        }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+        .toggle-switch.active::after {
+            transform: translateX(24px);
+        }
+        .test-result {
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        .test-result.success {
+            background: rgba(0, 201, 167, 0.1);
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+        }
+        .test-result.error {
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1>📊 Crypto Daily Analyzer</h1>
+            <ul class="nav-links">
+                <li><a href="/">首页</a></li>
+                <li><a href="/dashboard">仪表盘</a></li>
+                <li><a href="/ai-chat">🤖 AI分析</a></li>
+                <li><a href="/settings">设置</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2>⚙️ 系统设置</h2>
+        
+        <div class="settings-section">
+            <h3>🤖 AI 模型配置</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">配置多个 AI 模型，支持自动切换和负载均衡</p>
+            
+            <!-- Gemini -->
+            <div class="ai-model-card active" id="geminiCard">
+                <div class="model-header">
+                    <div>
+                        <span class="model-name">🧠 Google Gemini</span>
+                        <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">推荐</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span class="model-status active" id="geminiStatus">已启用</span>
+                        <div class="toggle-switch active" id="geminiToggle" onclick="toggleModel('gemini')"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>API Key</label>
+                    <input type="password" id="geminiKey" placeholder="输入 Gemini API Key">
+                    <small style="color: var(--text-muted);">获取: https://makersuite.google.com/app/apikey</small>
+                </div>
+                <div class="form-group">
+                    <label>模型版本</label>
+                    <select id="geminiModel">
+                        <option value="gemini-3.1-pro">🌟 Gemini 3.1 Pro (最新 - 最强推理)</option>
+                        <option value="gemini-2.5-pro-exp-03-25">Gemini 2.5 Pro (推荐)</option>
+                        <option value="gemini-2.0-flash">Gemini 2.0 Flash (快速)</option>
+                        <option value="gemini-2.0-pro">Gemini 2.0 Pro</option>
+                        <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" onclick="testModel('gemini')" style="margin-top: 10px;">🧪 测试连接</button>
+                <div id="geminiTestResult"></div>
+            </div>
+
+            <!-- OpenRouter -->
+            <div class="ai-model-card" id="openrouterCard">
+                <div class="model-header">
+                    <div>
+                        <span class="model-name">🔀 OpenRouter</span>
+                        <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">多模型聚合</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span class="model-status inactive" id="openrouterStatus">未启用</span>
+                        <div class="toggle-switch" id="openrouterToggle" onclick="toggleModel('openrouter')"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>API Key</label>
+                    <input type="password" id="openrouterKey" placeholder="输入 OpenRouter API Key">
+                    <small style="color: var(--text-muted);">获取: https://openrouter.ai/keys</small>
+                </div>
+                <div class="form-group">
+                    <label>选择模型</label>
+                    <select id="openrouterModel">
+                        <option value="google/gemini-3.1-pro">🌟 Gemini 3.1 Pro (OpenRouter)</option>
+                        <option value="openai/gpt-5.2">🌟 GPT-5.2 (OpenRouter)</option>
+                        <option value="openai/gpt-5">GPT-5</option>
+                        <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet</option>
+                        <option value="openai/gpt-4o">GPT-4o</option>
+                        <option value="openai/gpt-4o-mini">GPT-4o Mini</option>
+                        <option value="deepseek/deepseek-chat">DeepSeek V3</option>
+                        <option value="meta-llama/llama-3.3-70b-instruct">Llama 3.3 70B</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" onclick="testModel('openrouter')" style="margin-top: 10px;">🧪 测试连接</button>
+                <div id="openrouterTestResult"></div>
+            </div>
+
+            <!-- OpenAI -->
+            <div class="ai-model-card" id="openaiCard">
+                <div class="model-header">
+                    <div>
+                        <span class="model-name">🅾️ OpenAI</span>
+                        <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">原生 API</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span class="model-status inactive" id="openaiStatus">未启用</span>
+                        <div class="toggle-switch" id="openaiToggle" onclick="toggleModel('openai')"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>API Key</label>
+                    <input type="password" id="openaiKey" placeholder="输入 OpenAI API Key">
+                    <small style="color: var(--text-muted);">获取: https://platform.openai.com/api-keys</small>
+                </div>
+                <div class="form-group">
+                    <label>选择模型</label>
+                    <select id="openaiModel">
+                        <option value="gpt-5.2">🌟 GPT-5.2 (最新 - OpenAI旗舰)</option>
+                        <option value="gpt-5">GPT-5</option>
+                        <option value="gpt-4o">GPT-4o</option>
+                        <option value="gpt-4o-mini">GPT-4o Mini</option>
+                        <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                        <option value="o1">o1 (推理专用)</option>
+                        <option value="o1-preview">o1 Preview</option>
+                        <option value="o1-mini">o1 Mini</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" onclick="testModel('openai')" style="margin-top: 10px;">🧪 测试连接</button>
+                <div id="openaiTestResult"></div>
+            </div>
+
+            <!-- 其他 OpenAI 兼容 API -->
+            <div class="ai-model-card" id="customCard">
+                <div class="model-header">
+                    <div>
+                        <span class="model-name">⚙️ 自定义 API</span>
+                        <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">OpenAI 兼容</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span class="model-status inactive" id="customStatus">未启用</span>
+                        <div class="toggle-switch" id="customToggle" onclick="toggleModel('custom')"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>API Base URL</label>
+                    <input type="text" id="customBaseUrl" placeholder="https://api.example.com/v1">
+                    <small style="color: var(--text-muted);">支持: AIHubMix、PoeAPI、其他 OpenAI 兼容服务</small>
+                </div>
+                <div class="form-group">
+                    <label>API Key</label>
+                    <input type="password" id="customKey" placeholder="输入 API Key">
+                </div>
+                <div class="form-group">
+                    <label>模型名称</label>
+                    <input type="text" id="customModel" placeholder="例如: gpt-4 或自定义模型名">
+                </div>
+                <button class="btn btn-secondary" onclick="testModel('custom')" style="margin-top: 10px;">🧪 测试连接</button>
+                <div id="customTestResult"></div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>📊 分析策略偏好</h3>
+            <div class="form-group">
+                <label>默认分析策略</label>
+                <select id="defaultStrategy">
+                    <option value="comprehensive">📊 综合分析 (推荐)</option>
+                    <option value="trend">🐆 猎豹 - 趋势跟随</option>
+                    <option value="value">🦥 树懒 - 价值投资</option>
+                    <option value="macro">🦉 猫头鹰 - 宏观择时</option>
+                    <option value="arbitrage">🦈 鲨鱼 - 套利博弈</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>分析详细程度</label>
+                <select id="analysisDepth">
+                    <option value="concise">简洁 - 快速概览</option>
+                    <option value="standard" selected>标准 - 详细分析</option>
+                    <option value="deep">深度 - 专业报告</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>📱 通知设置</h3>
+            <div class="form-group">
+                <label>Telegram Bot Token</label>
+                <input type="password" id="telegramToken" placeholder="输入 Bot Token">
+            </div>
+            <div class="form-group">
+                <label>Telegram Chat ID</label>
+                <input type="text" id="telegramChatId" placeholder="输入 Chat ID">
+            </div>
+            <div class="form-group">
+                <label>推送设置</label>
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="pushDaily" checked> 每日定时推送
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="pushAlert"> 价格预警推送
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="pushAIChat"> AI 分析完成推送
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>⏰ 定时任务</h3>
+            <div class="form-group">
+                <label>每日分析时间 (UTC)</label>
+                <input type="time" id="scheduleTime" value="09:00">
+                <small style="color: var(--text-muted);">北京时间 UTC+8: 17:00</small>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary" onclick="saveAllSettings()">💾 保存所有设置</button>
+            <button class="btn btn-secondary" onclick="resetSettings()">🔄 恢复默认</button>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Crypto Daily Analyzer v1.0 | 多 AI 模型支持</p>
+        </div>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+        // 切换模型启用状态
+        function toggleModel(model) {
+            const card = document.getElementById(model + 'Card');
+            const toggle = document.getElementById(model + 'Toggle');
+            const status = document.getElementById(model + 'Status');
+            
+            toggle.classList.toggle('active');
+            card.classList.toggle('active');
+            
+            if (toggle.classList.contains('active')) {
+                status.textContent = '已启用';
+                status.classList.remove('inactive');
+                status.classList.add('active');
+            } else {
+                status.textContent = '未启用';
+                status.classList.remove('active');
+                status.classList.add('inactive');
+            }
+        }
+        
+        // 测试模型连接
+        async function testModel(model) {
+            const resultDiv = document.getElementById(model + 'TestResult');
+            resultDiv.innerHTML = '<div class="test-result">🧪 测试中...</div>';
+            
+            // 获取对应的 key 和 model
+            let key, modelName, baseUrl;
+            
+            if (model === 'gemini') {
+                key = document.getElementById('geminiKey').value;
+                modelName = document.getElementById('geminiModel').value;
+            } else if (model === 'openrouter') {
+                key = document.getElementById('openrouterKey').value;
+                modelName = document.getElementById('openrouterModel').value;
+            } else if (model === 'openai') {
+                key = document.getElementById('openaiKey').value;
+                modelName = document.getElementById('openaiModel').value;
+            } else if (model === 'custom') {
+                key = document.getElementById('customKey').value;
+                modelName = document.getElementById('customModel').value;
+                baseUrl = document.getElementById('customBaseUrl').value;
+            }
+            
+            if (!key) {
+                resultDiv.innerHTML = '<div class="test-result error">❌ 请先输入 API Key</div>';
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/test-ai-model', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        provider: model,
+                        api_key: key,
+                        model: modelName,
+                        base_url: baseUrl
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultDiv.innerHTML = `<div class="test-result success">✅ 连接成功！${data.message || ''}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="test-result error">❌ 连接失败：${data.error}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="test-result error">❌ 请求错误：${error.message}</div>`;
+            }
+        }
+        
+        // 保存所有设置
+        async function saveAllSettings() {
+            const settings = {
+                ai_models: {
+                    gemini: {
+                        enabled: document.getElementById('geminiToggle').classList.contains('active'),
+                        api_key: document.getElementById('geminiKey').value,
+                        model: document.getElementById('geminiModel').value
+                    },
+                    openrouter: {
+                        enabled: document.getElementById('openrouterToggle').classList.contains('active'),
+                        api_key: document.getElementById('openrouterKey').value,
+                        model: document.getElementById('openrouterModel').value
+                    },
+                    openai: {
+                        enabled: document.getElementById('openaiToggle').classList.contains('active'),
+                        api_key: document.getElementById('openaiKey').value,
+                        model: document.getElementById('openaiModel').value
+                    },
+                    custom: {
+                        enabled: document.getElementById('customToggle').classList.contains('active'),
+                        api_key: document.getElementById('customKey').value,
+                        model: document.getElementById('customModel').value,
+                        base_url: document.getElementById('customBaseUrl').value
+                    }
+                },
+                strategy: {
+                    default: document.getElementById('defaultStrategy').value,
+                    depth: document.getElementById('analysisDepth').value
+                },
+                telegram: {
+                    bot_token: document.getElementById('telegramToken').value,
+                    chat_id: document.getElementById('telegramChatId').value,
+                    push_daily: document.getElementById('pushDaily').checked,
+                    push_alert: document.getElementById('pushAlert').checked,
+                    push_ai_chat: document.getElementById('pushAIChat').checked
+                },
+                schedule: {
+                    time: document.getElementById('scheduleTime').value
+                }
+            };
+            
+            try {
+                const response = await fetch('/api/settings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(settings)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('✅ 设置已保存！');
+                } else {
+                    alert('❌ 保存失败：' + data.error);
+                }
+            } catch (error) {
+                alert('❌ 请求错误：' + error.message);
+            }
+        }
+        
+        // 恢复默认
+        function resetSettings() {
+            if (confirm('确定要恢复默认设置吗？')) {
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

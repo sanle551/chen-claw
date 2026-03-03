@@ -1,0 +1,114 @@
+<!-- web/templates/login.html -->
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <title>{{ '注册' if mode=='register' else '登录' }} - Crypto Analyzer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg-color: #0f1419;
+      --card-bg: #1a1f2e;
+      --text-color: #e4e6eb;
+      --text-muted: #8b949e;
+      --border-color: #30363d;
+      --primary: #2e5cff;
+      --secondary: #00c9a7;
+    }
+    body { 
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
+      padding: 24px; 
+      background: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card { 
+      max-width: 360px; 
+      width: 100%;
+      margin: 0 auto; 
+      border: 1px solid var(--border-color); 
+      padding: 30px; 
+      border-radius: 12px; 
+      background: var(--card-bg);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    h2 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      color: var(--text-color);
+      text-align: center;
+    }
+    label { 
+      display:block; 
+      margin: 16px 0 8px; 
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    input { 
+      width:100%; 
+      padding: 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-color);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    input:focus {
+      border-color: var(--primary);
+    }
+    button { 
+      margin-top: 24px; 
+      width:100%; 
+      padding:14px;
+      background: linear-gradient(135deg, var(--primary), #1e4bef);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(46,92,255,0.4);
+    }
+    .link { 
+      margin-top: 20px; 
+      text-align:center; 
+      font-size: 14px;
+    }
+    .link a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>{{ '注册' if mode=='register' else '登录' }}</h2>
+    <form method="post">
+      <label>用户名</label>
+      <input name="username" required placeholder="输入用户名">
+      <label>密码</label>
+      <input name="password" type="password" required placeholder="输入密码">
+      <button type="submit">{{ '注册' if mode=='register' else '登录' }}</button>
+    </form>
+    <div class="link">
+      {% if mode=='register' %}
+        <a href="/auth/login">已有账号？前往登录</a>
+      {% else %}
+        <a href="/auth/register">没有账号？注册</a>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

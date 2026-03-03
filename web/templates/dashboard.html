@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - Crypto Daily Analyzer</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1>📊 Crypto Daily Analyzer</h1>
+            <ul class="nav-links">
+                <li><a href="/">首页</a></li>
+                <li><a href="/dashboard">仪表盘</a></li>
+                <li><a href="/skills">🛠️ 技能中心</a></li>
+                <li><a href="/ai-chat">🤖 AI分析</a></li>
+                <li><a href="/settings">设置</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2>📈 分析仪表盘</h2>
+        
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>市场概览</h3>
+                <div id="marketStats">
+                    <div class="loading">加载中...</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>价格走势</h3>
+                <div id="priceChart">
+                    <p>图表加载中...</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>代币评级分布</h3>
+                <div id="ratingDistribution">
+                    <div class="loading">加载中...</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>最近分析</h3>
+                <div id="recentAnalysis">
+                    <div class="loading">加载中...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button id="refreshData" class="btn btn-primary">🔄 刷新数据</button>
+            <button id="exportReport" class="btn btn-secondary">📥 导出报告</button>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Crypto Daily Analyzer v1.0</p>
+        </div>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

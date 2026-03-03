@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Daily Analyzer - 加密货币每日分析</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1>📊 Crypto Daily Analyzer</h1>
+            <ul class="nav-links">
+                <li><a href="/">首页</a></li>
+                <li><a href="/dashboard">仪表盘</a></li>
+                <li><a href="/skills">🛠️ 技能中心</a></li>
+                <li><a href="/ai-chat">🤖 AI分析</a></li>
+                <li><a href="/settings">设置</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <h2>AI 驱动的加密货币分析系统</h2>
+            <p>每日自动分析市场，生成投资决策报告</p>
+            <div class="actions">
+                <button id="runAnalysis" class="btn btn-primary">🚀 立即运行分析</button>
+                <a href="/dashboard" class="btn btn-secondary">📈 查看仪表盘</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <h3>🤖 AI 分析</h3>
+                <p>基于 Gemini 3.1 Pro 的智能分析引擎</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 多维数据</h3>
+                <p>整合行情、链上、舆情等多维度数据</p>
+            </div>
+            <div class="feature-card">
+                <h3>📱 实时推送</h3>
+                <p>支持 Telegram 等多渠道推送通知</p>
+            </div>
+        </section>
+
+        <section class="market-overview" id="marketOverview">
+            <h3>📈 市场概览</h3>
+            <div class="loading">加载中...</div>
+        </section>
+
+        <section class="token-list">
+            <h3>🎯 监控代币</h3>
+            <div id="tokenList" class="token-grid">
+                <div class="loading">加载中...</div>
+            </div>
+        </section>
+
+        <section class="recent-reports">
+            <h3>📋 最近报告</h3>
+            <div id="recentReports">
+                <div class="loading">加载中...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Crypto Daily Analyzer v1.0 | Built with ❤️ using Flask & Gemini</p>
+        </div>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
